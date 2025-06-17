@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Release Test</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1 id="main-title">Release Test</h1>
+        <div id="loading-spinner" class="spinner"></div>
+        <p id="loading-text" class="loading-message"></p>
+    </div>
+
+    <div id="final-screen" class="final-message hidden">
+        <p>Při zavádění systému se spouští aplikace Kaspersky Virus Removal Tool. Dekováno: Aplikace je součástí systému a je podepsána Googlem za bezpečnou. NTS a definice hrozeb označili tuto aplikaci za: "Legální nebo bezpečný software, který může obsahovat bezpečnostní trhliny, které mohou umožnit hackerům nebo malwaru průnik do zařízení nebo způsobit nestabilitu systému." Doporučujeme se ujistit o nutnosti této aplikace a zvážit její odinstalaci. Před odinstalací zkontrolujte, zda neexistují aktualizace SW, které mohou přinášet nové záplaty těchto problémů. Zařízení je označeno za: "Bezpečné, obsahuje potenciální zranitelnost, které není využito!"</p>
+    </div>
+
+    <script>
+        const texts = [
+            { text: "Skenuji Boot Drive...", duration: 3 * 60 * 1000 },
+            { text: "Skenuje se Boot Sektor...", duration: 1.2 * 60 * 1000 },
+            { text: "Kontrola závislostí...", duration: 30 * 1000 },
+            { text: "Kontrola bezpečnosti bootování systému...", duration: 58 * 1000 },
+            { text: "Kontrola ovladačů systému...", duration: 12 * 1000 },
+            { text: "Získávání komplexního testu...", duration: 5 * 1000 },
+            { text: "Kontrolujeme součásti, kam se jiné testy nedostanou...", duration: 6.2 * 60 * 1000 },
+            { text: "Kontrola disku...", duration: 1 * 60 * 1000 },
+            { text: "Ověření integrity systému...", duration: 25 * 1000 },
+            { text: "Ověření integrity systému (1 hrozba nalezena)...", duration: 23 * 1000 }
+        ];
+
+        let currentTextIndex = 0;
+        const loadingTextElement = document.getElementById('loading-text');
+        const loadingSpinnerElement = document.getElementById('loading-spinner');
+        const containerElement = document.querySelector('.container');
+        const finalScreenElement = document.getElementById('final-screen');
+
+        function updateText() {
+            if (currentTextIndex < texts.length) {
+                loadingTextElement.textContent = texts[currentTextIndex].text;
+                setTimeout(() => {
+                    currentTextIndex++;
+                    updateText();
+                }, texts[currentTextIndex].duration);
+            } else {
+                // Po dokončení všech textů skryj načítací prvky a zobraz závěrečnou obrazovku
+                loadingSpinnerElement.classList.add('hidden');
+                loadingTextElement.classList.add('hidden');
+                containerElement.style.display = 'none'; // Skryje celý kontejner
+                finalScreenElement.classList.remove('hidden');
+                document.body.style.backgroundColor = '#4CAF50'; // Zelené pozadí pro závěrečnou obrazovku
+            }
+        }
+
+        // Spuštění prvního textu ihned po načtení stránky
+        document.addEventListener('DOMContentLoaded', updateText);
+    </script>
+</body>
+</html>
